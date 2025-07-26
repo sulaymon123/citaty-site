@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Цитата дня</title>
+  <style>
+    :root {
+      --bg-color-light: #f5f7fa;
+      --text-color-light: #222;
+      --quote-color-light: #444;
+      --bg-color-dark: #121212;
+      --text-color-dark: #f5f5f5;
+      --quote-color-dark: #dddddd;
+      --accent-color: #1e88e5;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      background-color: var(--bg-color-light);
+      color: var(--text-color-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background-color: var(--bg-color-dark);
+      color: var(--text-color-dark);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    #quote {
+      font-size: 22px;
+      font-style: italic;
+      max-width: 600px;
+      margin-bottom: 30px;
+      color: var(--quote-color-light);
+      transition: color 0.3s;
+    }
+
+    body.dark #quote {
+      color: var(--quote-color-dark);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      padding: 10px 18px;
+      font-size: 15px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+
+    #copy-status {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #90ee90;
+      height: 18px;
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 14px;
+      color: gray;
+    }
+
+    @media (max-width: 480px) {
+      #quote {
+        font-size: 18px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 10px 14px;
+      }
+
+      .toggle-theme {
+        top: 10px;
+        right: 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="toggle-theme" onclick="toggleTheme()">🌗 Тема</button>
+
+  <h1>Цитата дня</h1>
+  <div id="quote">Нажмите кнопку, чтобы увидеть цитату</div>
+
+  <div class="buttons">
+    <button onclick="showQuote()">Показать</button>
+    <button onclick="copyQuote()">Скопировать</button>
+    <button onclick="shareQuote()">Поделиться</button>
+  </div>
+
+  <div id="copy-status"></div>
+
+  <footer>&copy; 2025 | Сделано с душой</footer>
+
+  <script>
+    const quotes = [
+      "Будь тем изменением, которое хочешь видеть в мире. — Махатма Ганди",
+      "Успех — это сумма маленьких усилий, повторяющихся изо дня в день. — Роберт Колльер",
+      "Не жди. Время никогда не будет подходящим. — Наполеон Хилл",
+      "Делай, что можешь, с тем, что имеешь, там, где ты есть. — Теодор Рузвельт",
+      "Секрет продвижения вперёд — начать. — Марк Твен",
+      "Падают все. Поднимаются — только сильные.",
+      "Если ты можешь мечтать об этом — ты можешь сделать это. — Уолт Дисней"
+    ];
+
+    let autoSwitch;
+
+    function showQuote() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const quote = quotes[randomIndex];
+      document.getElementById('quote').textContent = quote;
+      document.getElementById('copy-status').textContent = '';
+    }
+
+    function copyQuote() {
+      const quote = document.getElementById('quote').textContent;
+      if (quote && quote !== 'Нажмите кнопку, чтобы увидеть цитату') {
+        navigator.clipboard.writeText(quote).then(() => {
+          document.getElementById('copy-status').textContent = "Скопировано!";
+        });
+      } else {
+        document.getElementById('copy-status').textContent = "Сначала выберите цитату!";
+      }
+    }
+
+    function shareQuote() {
+      const quote = document.getElementById('quote').textContent;
+      if (navigator.share && quote && quote !== 'Нажмите кнопку, чтобы увидеть цитату') {
+        navigator.share({
+          title: "Цитата дня",
+          text: quote,
+          url: window.location.href
+        });
+      } else {
+        alert("Поделиться можно только на телефоне или поддерживаемом браузере.");
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+
+    // Автоматическая смена цитаты
+    autoSwitch = setInterval(showQuote, 10000); // Каждые 10 секунд
+  </script>
+
+</body>
+</html>
+
