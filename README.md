@@ -22,6 +22,6 @@
 Просто скачай `index.html` и открой его в любом браузере.
 
 ```bash
-git clone https://github.com/твое_имя/citaty-site.git
+git clone https://github.com/sulaymon123/citaty-site.git
 
 Если хочешь свой уникальный шаблон — пиши мне в Telegram: @Cuba_198
